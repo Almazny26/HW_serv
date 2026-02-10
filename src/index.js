@@ -1,7 +1,7 @@
 const http = require('http');
 const { getUsers } = require('./modules/users');
 
-// Порт из env (например 3000) или 3003 при отсутствии
+// порт из переменной или 3003
 const PORT = process.env.PORT || 3003;
 const HOST = '127.0.0.1';
 
@@ -9,7 +9,7 @@ const server = http.createServer((request, response) => {
   const url = new URL(request.url, `http://${HOST}:${PORT}`);
   const searchParams = url.searchParams;
 
-  // ?hello=<name> - "Hello, <name>.", 200
+  // привет с именем
   if (searchParams.has('hello')) {
     let name = '';
     const rawQuery = (request.url.split('?')[1] || '').replace(/\+/g, ' ');
@@ -40,7 +40,7 @@ const server = http.createServer((request, response) => {
     return;
   }
 
-  // ?users - JSON из data/users.json, 200
+  // список юзеров из файла
   if (searchParams.has('users')) {
     try {
       const users = getUsers();
@@ -53,14 +53,14 @@ const server = http.createServer((request, response) => {
     return;
   }
 
-  // Нет параметров - "Hello, World!", 200
+  // без параметров
   if ([...searchParams.keys()].length === 0) {
     response.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
     response.end('Hello, World!');
     return;
   }
 
-  // Любые другие параметры - пустой ответ, 500
+  // всё остальное - 500
   response.writeHead(500);
   response.end();
 });
