@@ -1,0 +1,534 @@
+{
+	"info": {
+		"_postman_id": "4175586e-f3ff-4ef9-abb1-b4f7fa01c856",
+		"name": "Library API",
+		"description": "REST API для сервиса «библиотека»: читатели, книги, CRUD и операции взятия/возврата книг.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37499117"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test('Response is array', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/users",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Получить список всех пользователей (читателей)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test('Response has id and name', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('id');",
+									"    pm.expect(json).to.have.property('name');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/users/{{user_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}"
+							]
+						},
+						"description": "Получить пользователя по id"
+					},
+					"response": []
+				},
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 201', function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"pm.test('Response has id', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('id');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Иван Иванов\",\n    \"email\": \"ivan@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{api_url}}/users",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Добавить нового пользователя (читателя)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test('Response has id', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('id');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Иван Петров\",\n    \"email\": \"ivan.petrov@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{api_url}}/users/{{user_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}"
+							]
+						},
+						"description": "Редактировать пользователя по id"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200 or 204', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/users/{{user_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}"
+							]
+						},
+						"description": "Удалить пользователя по id"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "Get all books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test('Response is array', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/books",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"books"
+							]
+						},
+						"description": "Получить список всех книг"
+					},
+					"response": []
+				},
+				{
+					"name": "Get book by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test('Response has id and title', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('id');",
+									"    pm.expect(json).to.have.property('title');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/books/{{book_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"books",
+								"{{book_id}}"
+							]
+						},
+						"description": "Получить книгу по id"
+					},
+					"response": []
+				},
+				{
+					"name": "Create book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 201', function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"pm.test('Response has id', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('id');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Война и мир\",\n    \"author\": \"Л. Н. Толстой\",\n    \"isbn\": \"978-5-17-090123-4\"\n}"
+						},
+						"url": {
+							"raw": "{{api_url}}/books",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"books"
+							]
+						},
+						"description": "Добавить новую книгу"
+					},
+					"response": []
+				},
+				{
+					"name": "Update book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test('Response has id', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('id');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Война и мир. Том 1\",\n    \"author\": \"Л. Н. Толстой\",\n    \"isbn\": \"978-5-17-090123-4\"\n}"
+						},
+						"url": {
+							"raw": "{{api_url}}/books/{{book_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"books",
+								"{{book_id}}"
+							]
+						},
+						"description": "Редактировать книгу по id"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200 or 204', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/books/{{book_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"books",
+								"{{book_id}}"
+							]
+						},
+						"description": "Удалить книгу по id"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User books (borrow / return)",
+			"item": [
+				{
+					"name": "Get user borrowed books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test('Response is array', function () {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/users/{{user_id}}/books",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}",
+								"books"
+							]
+						},
+						"description": "Получить список книг, взятых пользователем"
+					},
+					"response": []
+				},
+				{
+					"name": "Borrow book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200 or 201', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									"pm.test('Response is JSON', function () {",
+									"    pm.response.to.be.json;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/users/{{user_id}}/books/{{book_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}",
+								"books",
+								"{{book_id}}"
+							]
+						},
+						"description": "Взять книгу (пользователь берёт книгу)"
+					},
+					"response": []
+				},
+				{
+					"name": "Return book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200 or 204', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/users/{{user_id}}/books/{{book_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}",
+								"books",
+								"{{book_id}}"
+							]
+						},
+						"description": "Вернуть книгу (пользователь возвращает книгу)"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "api_url",
+			"value": "http://127.0.0.1:3005"
+		},
+		{
+			"key": "user_id",
+			"value": "1"
+		},
+		{
+			"key": "book_id",
+			"value": "1"
+		}
+	]
+}
